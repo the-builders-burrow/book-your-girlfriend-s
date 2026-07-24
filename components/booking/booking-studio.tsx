@@ -725,9 +725,9 @@ export function BookingStudio() {
               <span>We orchestrate the details.</span>
             </h1>
             <p>
-              Exceptional tables, sold-out-worthy tickets, flights, private
-              venues, personal gifts, rare experiences, romantic escapes—or
-              almost anything else—researched by an AI concierge that keeps
+              Exceptional tables, event tickets, flights, private venues,
+              personal gifts, rare experiences, romantic escapes, and other
+              discoverable bookings—researched by an AI concierge that keeps
               every final choice in your hands.
             </p>
           </div>

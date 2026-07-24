@@ -51,8 +51,8 @@ workflow only after the user explicitly asks to research.
 | --- | --- | --- |
 | 400 | `INVALID_REQUEST` | Schema, date, or size validation failed |
 | 400 | `MISSING_ROUTE` | A flight request lacks an origin or destination |
-| 403 | `CROSS_ORIGIN_REQUEST` | The request origin is not allowed |
-| 429 | `TOO_MANY_MISSIONS` | Process-local concurrency is exhausted |
+| 403 | `ORIGIN_NOT_ALLOWED` | The request origin is not allowed |
+| 429 | `BOOKING_BUSY` | Process-local concurrency is exhausted |
 | 502 | `PLANNING_FAILED` | Fireworks did not produce a safe plan |
 | 502 | `SANDBOX_AGENT_FAILED` | Daytona evidence was missing or invalid |
 | 503 | `DAYTONA_UNAVAILABLE` | Daytona credentials are not configured |

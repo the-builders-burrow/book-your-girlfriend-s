@@ -64,8 +64,8 @@ const providers = {
   "kayak": { name: "KAYAK", url: q => "https://www.kayak.com/flights?search=" + enc(q) },
   "skyscanner": { name: "Skyscanner", url: q => "https://www.skyscanner.com/transport/flights/?query=" + enc(q) },
   "ticketmaster": { name: "Ticketmaster", url: q => "https://www.ticketmaster.com/search?q=" + enc(q) },
-  "eventbrite": { name: "Eventbrite", url: q => "https://www.eventbrite.com/d/online/events/?q=" + enc(q) },
-  "stubhub": { name: "StubHub", url: q => "https://www.stubhub.com/find/s/?q=" + enc(q) },
+  "eventbrite": { name: "Eventbrite", url: q => "https://www.eventbrite.com/d/united-states/events/?q=" + enc(q) },
+  "stubhub": { name: "StubHub", url: q => "https://www.stubhub.com/search?q=" + enc(q) },
 };
 
 async function boundedText(response) {

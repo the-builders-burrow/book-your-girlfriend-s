@@ -152,6 +152,14 @@ test("normalizes new provider identities only on their exact HTTPS hosts", () =>
   assert.equal(flight.provider, "Google Flights");
   assert.equal(flight.host, "www.google.com");
   assert.equal(ticket.provider, "Ticketmaster");
+  const stubhub = normalizeBookingOption({
+    ...safeOption,
+    providerId: "stubhub",
+    provider: "untrusted display name",
+    url: "https://www.stubhub.com/search?q=jazz",
+  });
+  assert.equal(stubhub.provider, "StubHub");
+  assert.equal(stubhub.host, "www.stubhub.com");
   assert.throws(
     () =>
       normalizeBookingOption({
