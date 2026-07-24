@@ -86,7 +86,7 @@ export async function planBookingMission(
     baseURL: "https://api.fireworks.ai/inference/v1",
   });
   const allowedProviders = providersByCategory[input.category];
-  const abort = timeoutSignal(70_000);
+  const abort = timeoutSignal(180_000);
 
   try {
     const result = await generateText({
