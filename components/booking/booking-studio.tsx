@@ -12,6 +12,7 @@ import {
   CalendarDays,
   Check,
   CheckCircle2,
+  ChevronDown,
   Clock3,
   Compass,
   Drama,
@@ -26,6 +27,7 @@ import {
   RotateCcw,
   Search,
   ShieldCheck,
+  SlidersHorizontal,
   Sparkles,
   Ticket,
   Utensils,
@@ -398,19 +400,17 @@ function MissionLog({ events }: { events: MissionEvent[] }) {
 
 export function BookingStudio() {
   const [category, setCategory] =
-    useState<BookingCategory>("restaurant");
+    useState<BookingCategory>("surprise");
   const [request, setRequest] = useState(
-    "Plan an unforgettable anniversary dinner with a beautiful room, exceptional food, and a sense of occasion.",
+    "Plan a perfect date near this location with a romantic activity and a great place to eat.",
   );
   const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("San Francisco");
+  const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [partySize, setPartySize] = useState(2);
   const [budget, setBudget] = useState("");
-  const [preferences, setPreferences] = useState(
-    "Intimate atmosphere, tasting menu, thoughtful service, and vegetarian-friendly options.",
-  );
+  const [preferences, setPreferences] = useState("");
   const [state, setState] = useState<MissionState>("idle");
   const [phase, setPhase] = useState<BookingPhase>("validating");
   const [events, setEvents] = useState<MissionEvent[]>([]);
@@ -670,24 +670,6 @@ export function BookingStudio() {
   };
 
   const needsRoute = category === "getaway" || category === "flight";
-  const destinationLabel =
-    category === "restaurant"
-      ? "City or neighborhood"
-      : category === "venue"
-        ? "City or neighborhood"
-        : category === "ticket"
-          ? "City, artist, team, or event"
-          : category === "flight"
-            ? "Flying to"
-        : category === "gift"
-          ? "Delivery city"
-          : category === "experience"
-            ? "Experience location"
-            : category === "surprise"
-              ? "City or area"
-              : category === "anything"
-                ? "Location or destination"
-                : "Destination";
 
   return (
     <div className="booking-app" id="top">
@@ -769,125 +751,160 @@ export function BookingStudio() {
           <div className="section-intro">
             <span>01 / BRIEF</span>
             <div>
-              <h2>Tell us what would make her smile</h2>
+              <h2>Where should the perfect date begin?</h2>
               <p>
-                Share the occasion, her taste, and your constraints. Keep
-                account credentials and card details private.
+                Enter an address, neighborhood, or city. Your concierge will
+                build the date around it—you can add more details only if you
+                want to.
               </p>
             </div>
           </div>
           <form onSubmit={submitMission}>
-            <CategoryPicker
-              value={category}
-              onChange={setCategory}
-              disabled={state === "running"}
-            />
-            <div className="mission-grid">
-              {needsRoute ? (
-                <label>
-                  <span>LEAVING FROM</span>
-                  <div>
-                    <MapPin size={16} />
-                    <input
-                      value={origin}
-                      onChange={(event) => setOrigin(event.target.value)}
-                      disabled={state === "running"}
-                      placeholder="San Francisco"
-                      required={category === "flight"}
-                    />
-                  </div>
-                </label>
-              ) : null}
-              <label className={needsRoute ? "" : "wide"}>
-                <span>{destinationLabel.toUpperCase()}</span>
+            <div className="quick-date-card">
+              <label className="quick-location">
+                <span>ADDRESS OR LOCATION</span>
                 <div>
-                  <Compass size={16} />
+                  <MapPin size={22} />
                   <input
                     value={destination}
                     onChange={(event) => setDestination(event.target.value)}
                     disabled={state === "running"}
-                    placeholder="Where should we search?"
-                    required={category === "flight"}
+                    placeholder="Try: 1 Ferry Building, San Francisco"
+                    autoComplete="street-address"
+                    required
                   />
                 </div>
+                <small className="quick-location-note">
+                  A neighborhood or nearby landmark works too—no home address
+                  required.
+                </small>
               </label>
-              <label>
-                <span>DATE / START</span>
-                <div>
-                  <CalendarDays size={16} />
-                  <input
-                    type="date"
-                    value={startDate}
-                    onChange={(event) => setStartDate(event.target.value)}
-                    disabled={state === "running"}
-                  />
-                </div>
-              </label>
-              <label>
-                <span>END / RETURN</span>
-                <div>
-                  <CalendarDays size={16} />
-                  <input
-                    type="date"
-                    value={endDate}
-                    min={startDate || undefined}
-                    onChange={(event) => setEndDate(event.target.value)}
-                    disabled={state === "running"}
-                  />
-                </div>
-              </label>
-              <label>
-                <span>PEOPLE</span>
-                <div>
-                  <span className="field-glyph">×</span>
-                  <input
-                    type="number"
-                    min={1}
-                    max={20}
-                    value={partySize}
-                    onChange={(event) =>
-                      setPartySize(Number(event.target.value))
-                    }
-                    disabled={state === "running"}
-                  />
-                </div>
-              </label>
-              <label>
-                <span>BUDGET / USD</span>
-                <div>
-                  <WalletCards size={16} />
-                  <input
-                    type="number"
-                    min={1}
-                    value={budget}
-                    onChange={(event) => setBudget(event.target.value)}
-                    disabled={state === "running"}
-                    placeholder="Optional"
-                  />
-                </div>
-              </label>
-              <label className="wide">
-                <span>DESCRIBE THE PERFECT GESTURE</span>
-                <textarea
-                  rows={3}
-                  value={request}
-                  onChange={(event) => setRequest(event.target.value)}
-                  disabled={state === "running"}
-                  placeholder="The occasion, the feeling, what she loves, and what to avoid…"
-                  required
-                />
-              </label>
-              <label className="wide">
-                <span>HER TASTE / ACCESSIBILITY</span>
-                <textarea
-                  rows={2}
-                  value={preferences}
-                  onChange={(event) => setPreferences(event.target.value)}
-                  disabled={state === "running"}
-                  placeholder="Favorite cuisines, flowers, styles, neighborhoods, accessibility needs…"
-                />
-              </label>
+              <div className="quick-date-promises" aria-label="What the agent plans">
+                <span>
+                  <Utensils size={15} />
+                  Dinner
+                </span>
+                <span>
+                  <Sparkles size={15} />
+                  Activity
+                </span>
+                <span>
+                  <ShieldCheck size={15} />
+                  You approve
+                </span>
+              </div>
             </div>
+
+            <details className="advanced-options">
+              <summary>
+                <span>
+                  <SlidersHorizontal size={17} />
+                  Add date, budget, or what she loves
+                </span>
+                <small>Optional</small>
+                <ChevronDown size={17} className="advanced-chevron" />
+              </summary>
+              <div className="advanced-options__body">
+                <CategoryPicker
+                  value={category}
+                  onChange={setCategory}
+                  disabled={state === "running"}
+                />
+                <div className="mission-grid">
+                  {needsRoute ? (
+                    <label>
+                      <span>LEAVING FROM</span>
+                      <div>
+                        <MapPin size={16} />
+                        <input
+                          value={origin}
+                          onChange={(event) => setOrigin(event.target.value)}
+                          disabled={state === "running"}
+                          placeholder="San Francisco"
+                          required={category === "flight"}
+                        />
+                      </div>
+                    </label>
+                  ) : null}
+                  <label>
+                    <span>DATE / START</span>
+                    <div>
+                      <CalendarDays size={16} />
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(event) => setStartDate(event.target.value)}
+                        disabled={state === "running"}
+                      />
+                    </div>
+                  </label>
+                  <label>
+                    <span>END / RETURN</span>
+                    <div>
+                      <CalendarDays size={16} />
+                      <input
+                        type="date"
+                        value={endDate}
+                        min={startDate || undefined}
+                        onChange={(event) => setEndDate(event.target.value)}
+                        disabled={state === "running"}
+                      />
+                    </div>
+                  </label>
+                  <label>
+                    <span>PEOPLE</span>
+                    <div>
+                      <span className="field-glyph">×</span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={20}
+                        value={partySize}
+                        onChange={(event) =>
+                          setPartySize(Number(event.target.value))
+                        }
+                        disabled={state === "running"}
+                      />
+                    </div>
+                  </label>
+                  <label>
+                    <span>BUDGET / USD</span>
+                    <div>
+                      <WalletCards size={16} />
+                      <input
+                        type="number"
+                        min={1}
+                        value={budget}
+                        onChange={(event) => setBudget(event.target.value)}
+                        disabled={state === "running"}
+                        placeholder="Optional"
+                      />
+                    </div>
+                  </label>
+                  <label className="wide">
+                    <span>THE KIND OF DATE</span>
+                    <textarea
+                      rows={3}
+                      value={request}
+                      onChange={(event) => setRequest(event.target.value)}
+                      disabled={state === "running"}
+                      placeholder="Romantic, adventurous, relaxed, a special celebration…"
+                      required
+                    />
+                  </label>
+                  <label className="wide">
+                    <span>WHAT SHE LOVES / ACCESSIBILITY</span>
+                    <textarea
+                      rows={2}
+                      value={preferences}
+                      onChange={(event) => setPreferences(event.target.value)}
+                      disabled={state === "running"}
+                      placeholder="Favorite food, music, flowers, activities, accessibility needs…"
+                    />
+                  </label>
+                </div>
+              </div>
+            </details>
             <div className="mission-actions">
               <p>
                 <LockKeyhole size={14} />
@@ -910,8 +927,8 @@ export function BookingStudio() {
                   <WandSparkles size={17} />
                 )}
                 {state === "running"
-                  ? "Agent researching"
-                  : "Launch booking agent"}
+                  ? "Planning her date"
+                  : "Plan her perfect date"}
                 <ArrowRight size={17} />
               </button>
             </div>
