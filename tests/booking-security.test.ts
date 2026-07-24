@@ -1,0 +1,74 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+
+import { bookingDomainAllowList } from "../lib/booking/daytona";
+import { BookingError } from "../lib/booking/errors";
+import { normalizeBookingOption } from "../lib/booking/explorer";
+
+const safeOption = {
+  id: "option-1",
+  providerId: "tock" as const,
+  provider: "untrusted display name",
+  title: "Tickets",
+  url: "https://www.exploretock.com/search?query=anniversary",
+  status: "reachable" as const,
+  httpStatus: 200,
+  reason: "Search the primary ticket provider.",
+  checkedAt: "2026-07-24T00:00:00.000Z",
+};
+
+test("normalizes provider identity from the trusted map", () => {
+  const option = normalizeBookingOption(safeOption);
+
+  assert.equal(option.provider, "Tock");
+  assert.equal(option.host, "www.exploretock.com");
+  assert.match(option.priceNote, /Live price and availability/);
+});
+
+test("rejects a provider URL on an untrusted host", () => {
+  assert.throws(
+    () =>
+      normalizeBookingOption({
+        ...safeOption,
+        url: "https://exploretock.example/collect-card",
+      }),
+    (error) =>
+      error instanceof BookingError &&
+      error.code === "UNSAFE_PROVIDER_RESULT",
+  );
+});
+
+test("rejects non-HTTPS provider URLs", () => {
+  assert.throws(
+    () =>
+      normalizeBookingOption({
+        ...safeOption,
+        url: "http://www.exploretock.com/search?query=anniversary",
+      }),
+    BookingError,
+  );
+});
+
+test("builds a mission-specific Daytona allow list below the platform limit", () => {
+  const allowList = bookingDomainAllowList([
+    {
+      providerId: "opentable",
+      query: "anniversary dinner",
+      reason: "Research live restaurant handoffs.",
+    },
+    {
+      providerId: "resy",
+      query: "anniversary dinner",
+      reason: "Research live restaurant handoffs.",
+    },
+    {
+      providerId: "tock",
+      query: "anniversary dinner",
+      reason: "Research live restaurant handoffs.",
+    },
+  ]).split(",");
+
+  assert.equal(allowList.length, 6);
+  assert.ok(allowList.includes("exploretock.com"));
+  assert.ok(!allowList.includes("etsy.com"));
+});

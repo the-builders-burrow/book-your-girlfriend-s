@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+reviews:
+  profile: assertive
+  path_instructions:
+    - path: "app/api/**"
+      instructions: >-
+        Treat these routes as public server boundaries. Check input validation,
+        secret handling, bounded work, safe error responses, and cleanup on every
+        exit path. Flag any path that could execute request-controlled shell text.
+    - path: "lib/booking/**"
+      instructions: >-
+        Preserve Book Your Girlfriend's trust boundaries: fixed provider IDs, exact HTTPS
+        host validation, provider-only Daytona egress, no user credentials in
+        sandboxes, explicit timeouts, bounded evidence, truthful availability
+        language, and best-effort cleanup.
+    - path: "components/**"
+      instructions: >-
+        Check accessible labels, keyboard behavior, responsive layouts, loading
+        and error states, and that client code never references server credentials.
+    - path: "app/api/voice/**"
+      instructions: >-
+        Confirm the ElevenLabs key remains server-only, input text is bounded,
+        provider failures are redacted, responses are not cached, and no paid
+        request can be triggered cross-origin.
+    - path: "docs/**"
+      instructions: >-
+        Verify product and sponsor-integration claims against the implementation.
+        Flag secrets, personal contact details, unsupported security promises, and
+        claims that imply the app purchased, reserved, or observed live price
+        or availability when the implementation only returned a provider handoff.

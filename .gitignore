@@ -1,0 +1,25 @@
+# Added by Braintrust Wizard
+.env.braintrust
+.braintrust.json
+.bt/
+
+# Local application secrets
+.env
+.env*.local
+
+# Node.js dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+.vercel/
+
+# Local tooling
+*.log
+*.tsbuildinfo
+coverage/
+.DS_Store
+.vercel
+.env*
+!.env.example
