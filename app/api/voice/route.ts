@@ -3,6 +3,7 @@ import { BookingError, publicBookingError } from "@/lib/booking/errors";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
+const MAX_VOICE_BODY_BYTES = 4_096;
 
 export async function POST(request: Request): Promise<Response> {
   try {
@@ -15,7 +16,24 @@ export async function POST(request: Request): Promise<Response> {
         503,
       );
     }
-    const body = (await request.json()) as { text?: unknown };
+    const rawBody = await request.text();
+    if (Buffer.byteLength(rawBody, "utf8") > MAX_VOICE_BODY_BYTES) {
+      throw new BookingError(
+        "VOICE_REQUEST_TOO_LARGE",
+        "Voice requests are limited to 4 KB.",
+        413,
+      );
+    }
+    let body: { text?: unknown };
+    try {
+      body = JSON.parse(rawBody) as { text?: unknown };
+    } catch {
+      throw new BookingError(
+        "INVALID_VOICE_JSON",
+        "Voice requests must contain valid JSON.",
+        400,
+      );
+    }
     const text =
       typeof body.text === "string" ? body.text.trim().slice(0, 900) : "";
     if (text.length < 10) {

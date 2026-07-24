@@ -1,6 +1,7 @@
 import { defineTool } from "@copilotkit/runtime/v2";
 import { z } from "zod";
 
+import { publicBookingError } from "@/lib/booking/errors";
 import { parseBookingRequest } from "@/lib/booking/input";
 import { runBookingMission } from "@/lib/booking/orchestrator";
 import { bookingCategories } from "@/types/booking";
@@ -36,12 +37,11 @@ export const startBookingMissionTool = defineTool({
         warnings: run.warnings,
       };
     } catch (error) {
+      const publicError = publicBookingError(error);
       return {
         ok: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "The booking mission failed safely.",
+        error: publicError.message,
+        code: publicError.code,
         retryable: true,
       };
     }
