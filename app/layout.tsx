@@ -26,12 +26,12 @@ const appUrl =
 export const metadata: Metadata = {
   title: "Book Your Girlfriend — Make every detail count.",
   description:
-    "An AI-native romantic concierge for exceptional restaurants, private venues, personal gifts, rare experiences, and memorable getaways.",
+    "An AI-native concierge for exceptional restaurants, tickets, flights, private venues, personal gifts, rare experiences, and memorable getaways.",
   metadataBase: new URL(appUrl),
   openGraph: {
     title: "Book Your Girlfriend — Make every detail count.",
     description:
-      "One thoughtful brief becomes a beautifully researched restaurant, venue, gift, experience, or getaway.",
+      "One thoughtful brief becomes a researched restaurant, ticket, flight, venue, gift, experience, getaway, or anything else.",
     type: "website",
     images: [
       {
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Book Your Girlfriend — Make every detail count.",
     description:
-      "Exceptional tables, gifts, experiences, venues, and escapes through one thoughtful AI concierge.",
+      "Tables, tickets, flights, gifts, experiences, venues, and escapes through one thoughtful AI concierge.",
     images: ["/opengraph-image"],
   },
 };

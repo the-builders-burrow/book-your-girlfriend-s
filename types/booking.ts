@@ -5,6 +5,9 @@ export const bookingCategories = [
   "experience",
   "getaway",
   "surprise",
+  "flight",
+  "ticket",
+  "anything",
 ] as const;
 
 export type BookingCategory = (typeof bookingCategories)[number];
@@ -60,7 +63,13 @@ export type BookingProviderId =
   | "booking"
   | "hotels"
   | "yelp"
-  | "google-search";
+  | "google-search"
+  | "google-flights"
+  | "kayak"
+  | "skyscanner"
+  | "ticketmaster"
+  | "eventbrite"
+  | "stubhub";
 
 export interface BookingSearchTask {
   providerId: BookingProviderId;

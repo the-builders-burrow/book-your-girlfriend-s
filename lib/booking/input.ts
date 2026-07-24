@@ -51,6 +51,17 @@ export function parseBookingRequest(value: unknown): {
     );
   }
 
+  if (
+    request.category === "flight" &&
+    (!request.origin || !request.destination)
+  ) {
+    throw new BookingError(
+      "MISSING_ROUTE",
+      "Flight missions require both a departure point and destination.",
+      400,
+    );
+  }
+
   return {
     input: {
       category: request.category,

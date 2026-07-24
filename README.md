@@ -1,16 +1,16 @@
 # Book Your Girlfriend
 
 Book Your Girlfriend is an AI-native romantic experience concierge. Give it the
-occasion, her taste, a location, timing, and budget; it researches exceptional
-restaurants, private venues, personal gifts, memorable experiences, getaways,
-or a complete surprise.
+occasion, her taste, a route or location, timing, and budget; it researches
+exceptional restaurants, tickets, flights, private venues, personal gifts,
+memorable experiences, getaways, a complete surprise, or an open-ended request.
 
 The name is playful. The product is thoughtful: it helps someone plan for a
 partner without reducing her to a stereotype, and it keeps the buyer in control.
 
 ## What makes it different
 
-- **One brief, not six search tabs.** Fireworks converts natural language into
+- **One brief, not nine search tabs.** Fireworks converts natural language into
   a structured, category-specific research plan.
 - **A real isolated agent.** Every mission runs in a fresh Daytona sandbox with
   provider-only network access and no user credentials.
@@ -29,11 +29,14 @@ partner without reducing her to a stereotype, and it keeps the buyer in control.
 | Category | Trusted research routes |
 | --- | --- |
 | Restaurants | OpenTable, Resy, Tock |
+| Tickets | Ticketmaster, Eventbrite, StubHub |
+| Flights | Google Flights, KAYAK, Skyscanner |
 | Venues | Peerspace, EventUp, Google Maps |
 | Gifts | Etsy, Uncommon Goods, 1-800-Flowers |
 | Experiences | Viator, GetYourGuide, Airbnb Experiences |
 | Getaways | Google Hotels, Booking.com, Hotels.com |
 | Surprise me | Google Search, Yelp, Google Maps |
+| Anything | Google Search, Yelp, Google Maps |
 
 ## Stack
 
@@ -107,4 +110,3 @@ Provider pages may block automated checks or require JavaScript. A `handoff`
 means a validated provider URL was produced, not that inventory is available.
 Book Your Girlfriend does not accept passwords, card numbers, or payment tokens.
 It is a planning and research prototype, not a travel agent or guarantee.
-

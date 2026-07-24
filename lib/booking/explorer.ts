@@ -28,6 +28,12 @@ const PROVIDERS = {
   hotels: { name: "Hotels.com", host: "www.hotels.com" },
   yelp: { name: "Yelp", host: "www.yelp.com" },
   "google-search": { name: "Google Search", host: "www.google.com" },
+  "google-flights": { name: "Google Flights", host: "www.google.com" },
+  kayak: { name: "KAYAK", host: "www.kayak.com" },
+  skyscanner: { name: "Skyscanner", host: "www.skyscanner.com" },
+  ticketmaster: { name: "Ticketmaster", host: "www.ticketmaster.com" },
+  eventbrite: { name: "Eventbrite", host: "www.eventbrite.com" },
+  stubhub: { name: "StubHub", host: "www.stubhub.com" },
 } as const;
 
 const AGENT_PROGRAM = String.raw`
@@ -54,6 +60,12 @@ const providers = {
   "hotels": { name: "Hotels.com", url: q => "https://www.hotels.com/Hotel-Search?destination=" + enc(q) },
   "yelp": { name: "Yelp", url: q => "https://www.yelp.com/search?find_desc=" + enc(q) },
   "google-search": { name: "Google Search", url: q => "https://www.google.com/search?q=" + enc(q) },
+  "google-flights": { name: "Google Flights", url: q => "https://www.google.com/travel/flights?q=" + enc(q) },
+  "kayak": { name: "KAYAK", url: q => "https://www.kayak.com/flights?search=" + enc(q) },
+  "skyscanner": { name: "Skyscanner", url: q => "https://www.skyscanner.com/transport/flights/?query=" + enc(q) },
+  "ticketmaster": { name: "Ticketmaster", url: q => "https://www.ticketmaster.com/search?q=" + enc(q) },
+  "eventbrite": { name: "Eventbrite", url: q => "https://www.eventbrite.com/d/online/events/?q=" + enc(q) },
+  "stubhub": { name: "StubHub", url: q => "https://www.stubhub.com/find/s/?q=" + enc(q) },
 };
 
 async function boundedText(response) {

@@ -19,8 +19,8 @@ Creates a provider-research mission. Send `Accept: text/event-stream` or
 }
 ```
 
-Categories are `restaurant`, `venue`, `gift`, `experience`, `getaway`, and
-`surprise`.
+Categories are `restaurant`, `ticket`, `flight`, `venue`, `gift`,
+`experience`, `getaway`, `surprise`, and `anything`.
 
 SSE messages use these shapes:
 
@@ -50,6 +50,7 @@ workflow only after the user explicitly asks to research.
 | Status | Example code | Meaning |
 | --- | --- | --- |
 | 400 | `INVALID_REQUEST` | Schema, date, or size validation failed |
+| 400 | `MISSING_ROUTE` | A flight request lacks an origin or destination |
 | 403 | `CROSS_ORIGIN_REQUEST` | The request origin is not allowed |
 | 429 | `TOO_MANY_MISSIONS` | Process-local concurrency is exhausted |
 | 502 | `PLANNING_FAILED` | Fireworks did not produce a safe plan |
@@ -58,4 +59,3 @@ workflow only after the user explicitly asks to research.
 
 These routes can invoke paid services. Production deployments should add
 authentication and a shared rate limiter before public access.
-

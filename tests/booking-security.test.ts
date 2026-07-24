@@ -72,3 +72,93 @@ test("builds a mission-specific Daytona allow list below the platform limit", ()
   assert.ok(allowList.includes("exploretock.com"));
   assert.ok(!allowList.includes("etsy.com"));
 });
+
+test("limits flight and ticket missions to their exact provider roots", () => {
+  const flightAllowList = bookingDomainAllowList([
+    {
+      providerId: "google-flights",
+      query: "SFO to JFK round trip",
+      reason: "Compare live flight search handoffs.",
+    },
+    {
+      providerId: "kayak",
+      query: "SFO to JFK round trip",
+      reason: "Compare live flight search handoffs.",
+    },
+    {
+      providerId: "skyscanner",
+      query: "SFO to JFK round trip",
+      reason: "Compare live flight search handoffs.",
+    },
+  ]).split(",");
+  const ticketAllowList = bookingDomainAllowList([
+    {
+      providerId: "ticketmaster",
+      query: "jazz tickets New York",
+      reason: "Compare live event ticket handoffs.",
+    },
+    {
+      providerId: "eventbrite",
+      query: "jazz tickets New York",
+      reason: "Compare live event ticket handoffs.",
+    },
+    {
+      providerId: "stubhub",
+      query: "jazz tickets New York",
+      reason: "Compare live event ticket handoffs.",
+    },
+  ]).split(",");
+
+  assert.deepEqual(
+    new Set(flightAllowList),
+    new Set([
+      "google.com",
+      "*.google.com",
+      "gstatic.com",
+      "*.gstatic.com",
+      "kayak.com",
+      "*.kayak.com",
+      "skyscanner.com",
+      "*.skyscanner.com",
+    ]),
+  );
+  assert.deepEqual(
+    new Set(ticketAllowList),
+    new Set([
+      "ticketmaster.com",
+      "*.ticketmaster.com",
+      "eventbrite.com",
+      "*.eventbrite.com",
+      "stubhub.com",
+      "*.stubhub.com",
+    ]),
+  );
+});
+
+test("normalizes new provider identities only on their exact HTTPS hosts", () => {
+  const flight = normalizeBookingOption({
+    ...safeOption,
+    providerId: "google-flights",
+    provider: "untrusted display name",
+    url: "https://www.google.com/travel/flights?q=SFO%20JFK",
+  });
+  const ticket = normalizeBookingOption({
+    ...safeOption,
+    providerId: "ticketmaster",
+    provider: "untrusted display name",
+    url: "https://www.ticketmaster.com/search?q=jazz",
+  });
+
+  assert.equal(flight.provider, "Google Flights");
+  assert.equal(flight.host, "www.google.com");
+  assert.equal(ticket.provider, "Ticketmaster");
+  assert.throws(
+    () =>
+      normalizeBookingOption({
+        ...safeOption,
+        providerId: "stubhub",
+        url: "https://checkout.stubhub.example/collect-card",
+      }),
+    BookingError,
+  );
+});

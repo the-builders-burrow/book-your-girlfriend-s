@@ -29,6 +29,12 @@ const domainsByProvider: Record<BookingProviderId, readonly string[]> = {
   hotels: ["hotels.com"],
   yelp: ["yelp.com"],
   "google-search": ["google.com", "gstatic.com"],
+  "google-flights": ["google.com", "gstatic.com"],
+  kayak: ["kayak.com"],
+  skyscanner: ["skyscanner.com"],
+  ticketmaster: ["ticketmaster.com"],
+  eventbrite: ["eventbrite.com"],
+  stubhub: ["stubhub.com"],
 };
 
 export function bookingDomainAllowList(

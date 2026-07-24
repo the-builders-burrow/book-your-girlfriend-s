@@ -22,10 +22,12 @@ import {
   LoaderCircle,
   LockKeyhole,
   MapPin,
+  Plane,
   RotateCcw,
   Search,
   ShieldCheck,
   Sparkles,
+  Ticket,
   Utensils,
   Volume2,
   WalletCards,
@@ -62,11 +64,14 @@ const categories: Array<{
   icon: ReactNode;
 }> = [
   { id: "restaurant", label: "Restaurants", icon: <Utensils size={17} /> },
+  { id: "ticket", label: "Tickets", icon: <Ticket size={17} /> },
+  { id: "flight", label: "Flights", icon: <Plane size={17} /> },
   { id: "venue", label: "Venues", icon: <Drama size={17} /> },
   { id: "gift", label: "Gifts", icon: <Gift size={17} /> },
   { id: "experience", label: "Experiences", icon: <Sparkles size={17} /> },
   { id: "getaway", label: "Getaways", icon: <Compass size={17} /> },
   { id: "surprise", label: "Surprise me", icon: <Heart size={17} /> },
+  { id: "anything", label: "Anything", icon: <Search size={17} /> },
 ];
 
 const phaseOrder: BookingPhase[] = [
@@ -664,19 +669,25 @@ export function BookingStudio() {
     setVoiceError("");
   };
 
-  const needsRoute = category === "getaway";
+  const needsRoute = category === "getaway" || category === "flight";
   const destinationLabel =
     category === "restaurant"
       ? "City or neighborhood"
       : category === "venue"
         ? "City or neighborhood"
+        : category === "ticket"
+          ? "City, artist, team, or event"
+          : category === "flight"
+            ? "Flying to"
         : category === "gift"
           ? "Delivery city"
           : category === "experience"
             ? "Experience location"
             : category === "surprise"
               ? "City or area"
-              : "Destination";
+              : category === "anything"
+                ? "Location or destination"
+                : "Destination";
 
   return (
     <div className="booking-app" id="top">
@@ -714,10 +725,10 @@ export function BookingStudio() {
               <span>We orchestrate the details.</span>
             </h1>
             <p>
-              Exceptional tables, private venues, personal gifts, rare
-              experiences, and romantic escapes—researched by an AI concierge
-              that remembers the details and keeps every final choice in your
-              hands.
+              Exceptional tables, sold-out-worthy tickets, flights, private
+              venues, personal gifts, rare experiences, romantic escapes—or
+              almost anything else—researched by an AI concierge that keeps
+              every final choice in your hands.
             </p>
           </div>
           <aside className="hero-trust">
@@ -782,6 +793,7 @@ export function BookingStudio() {
                       onChange={(event) => setOrigin(event.target.value)}
                       disabled={state === "running"}
                       placeholder="San Francisco"
+                      required={category === "flight"}
                     />
                   </div>
                 </label>
@@ -795,6 +807,7 @@ export function BookingStudio() {
                     onChange={(event) => setDestination(event.target.value)}
                     disabled={state === "running"}
                     placeholder="Where should we search?"
+                    required={category === "flight"}
                   />
                 </div>
               </label>
@@ -1112,7 +1125,7 @@ export function BookingStudio() {
           modalHeaderTitle: "Your romantic concierge",
           welcomeMessageText:
             "Tell me about her, the occasion, and the feeling you want to create. I can shape the idea or start a real provider research mission when you ask.",
-          chatInputPlaceholder: "Plan a dinner, gift, surprise, getaway…",
+          chatInputPlaceholder: "Plan a dinner, ticket, flight, gift, getaway…",
           chatToggleOpenLabel: "Open romantic concierge",
           chatToggleCloseLabel: "Close romantic concierge",
           chatDisclaimerText:
